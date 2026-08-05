@@ -1,7 +1,7 @@
 import rateLimit from "express-rate-limit";
 
 
-let loginLimit = rateLimit({
+export let loginLimit = rateLimit({
     windowMs: 60 * 60 * 1000,
     max: 5,
     message:{
@@ -10,4 +10,3 @@ let loginLimit = rateLimit({
     }
 });
 
-export default loginLimit;
