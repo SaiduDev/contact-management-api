@@ -3,7 +3,7 @@ import pool from "../db config/db.js";
 export let getContacts = async (req, res) => {
     try {
         let userId = req.user.id;
-        let contacts = await pool.query("SELECT * FROM contacts WHERE user_id = $1", [userId]);
+        let contacts = await pool.query("SELECT  * FROM contacts WHERE user_id = $1", [userId]);
 
         res.status(200).json(contacts.rows);
     } catch (error) {
@@ -22,7 +22,7 @@ export let postContact = async (req, res) => {
     res.status(500).json({message: "error occurred, contact not saved"});
     console.log(error.message);
     }    
-}
+} 
 
 export let editContact = async (req, res) => {
     
@@ -30,7 +30,7 @@ export let editContact = async (req, res) => {
         let {id} = req.params;
       let {name, phone} = req.body;
         
-      let result = await pool.query("UPDATE contacts SET name = $1, phone = $2 WHERE id = $3 RETURNING *", [name, phone, id]);
+      let result = await pool.query("UPDATE contacts SET name = $1, phone = $2 WHERE id = $3 AND user_id = $4 RETURNING *", [name, phone, id, req.user.id]);
 
       res.status(201).json({message: "edited successfully"});
     } catch (error) {
@@ -43,7 +43,7 @@ export let removeContact = async (req, res) => {
     try {
         let {id} = req.params;
 
-        let result = await pool.query("DELETE FROM contacts WHERE id = $1 RETURNING *", [id]);
+        let result = await pool.query("DELETE FROM contacts WHERE id = $1 AND user_id = $2 RETURNING *", [id, req.user.id]);
         res.status(200).json({message: "deleted successfully"});
         
     } catch (error) {

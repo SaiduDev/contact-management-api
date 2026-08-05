@@ -26,11 +26,11 @@ export let signup = async (req, res) => {
             {expiresIn: "5h"}
         );
 
-        res.status(200).json({message: "User created successfully", token});
+        res.status(201).json({message: "User created successfully", token});
 
     } catch (error) {
         res.status(500).json({message: "registration failed, please try again"})
-        console.log(error.message)
+        console.error(error)
     }
 }
     // Log in controller
@@ -57,9 +57,11 @@ export let login = async (req, res) => {
             {expiresIn: "5h"}
         );
 
-        res.status(200).json({token});
+        res.status(201).json({token});
     }catch(error){
     res.status(500).json({message: "login failed, something went wrong"});
+     console.error(error)
+
     }
 
 }
@@ -67,10 +69,12 @@ export let login = async (req, res) => {
 export let getUserProfile = async (req, res) => {
     
     try {
-        let data = await pool.query("SELECT * FROM users WHERE id = $1", [req.user.id]);
+        let data = await pool.query("SELECT id, name, email, phone, bio FROM users WHERE id = $1", [req.user.id]);
         res.status(200).json(data.rows[0]);
     } catch (error) {
         res.status(500).json({message: "unable to fetch data, something went wrong"});
+        console.error(error)
+
     }
 }
 
@@ -86,6 +90,6 @@ export let updateProfile = async (req, res) => {
         res.status(200).json("edited successfully");
     } catch (error) {
         res.status(500).json({message: "failed to update profile"});
-        console.log(error.message)
+        console.error(error);
     }
 }
