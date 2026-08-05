@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+// registration controller
 export let signup = async (req, res) => {
     let { fullName, email, password} = req.body;
 
@@ -32,7 +33,7 @@ export let signup = async (req, res) => {
         console.log(error.message)
     }
 }
-
+    // Log in controller
 export let login = async (req, res) => {
     let {email, password} = req.body;
 
@@ -62,7 +63,7 @@ export let login = async (req, res) => {
     }
 
 }
-
+    // fetch All user profile from the database
 export let getUserProfile = async (req, res) => {
     
     try {
@@ -73,6 +74,7 @@ export let getUserProfile = async (req, res) => {
     }
 }
 
+// updating the user profile
 export let updateProfile = async (req, res) => {
     try {
          let userId = req.user.id;
