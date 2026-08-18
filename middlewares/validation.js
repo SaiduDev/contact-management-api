@@ -45,7 +45,7 @@ export let updateProfileValidation = (req, res, next)=>{
             return res.status(401).json({message: "fullname should not be less than two"});
         }
         
-        if(!email || typeof fullName !== "string" || email.trim().length < 6 || !email.includes("@")){
+        if(!email || typeof email !== "string" || email.trim().length < 6 || !email.includes("@")){
             return res.status(401).json({message: "enter a valid email email address"});
         }
 
